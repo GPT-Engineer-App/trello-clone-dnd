@@ -35,7 +35,12 @@ const initialColumns = {
 
 const Index = () => {
   const [columns, setColumns] = useState(initialColumns);
-  const [newTicket, setNewTicket] = useState("");
+  const [newTickets, setNewTickets] = useState({
+    backlog: "",
+    designSprint: "",
+    devSprint: "",
+    accepted: "",
+  });
 
   const onDragEnd = (result, columns, setColumns) => {
     if (!result.destination) return;
@@ -75,8 +80,8 @@ const Index = () => {
   };
 
   const addTicket = (columnId) => {
-    if (newTicket.trim() === "") return;
-    const newTicketItem = { id: Date.now().toString(), content: newTicket };
+    if (newTickets[columnId].trim() === "") return;
+    const newTicketItem = { id: Date.now().toString(), content: newTickets[columnId] };
     const column = columns[columnId];
     const updatedItems = [...column.items, newTicketItem];
     setColumns({
@@ -86,7 +91,17 @@ const Index = () => {
         items: updatedItems,
       },
     });
-    setNewTicket("");
+    setNewTickets({
+      ...newTickets,
+      [columnId]: "",
+    });
+  };
+
+  const handleInputChange = (e, columnId) => {
+    setNewTickets({
+      ...newTickets,
+      [columnId]: e.target.value,
+    });
   };
 
   return (
@@ -132,8 +147,8 @@ const Index = () => {
               </Droppable>
               <Input
                 placeholder="Add new ticket..."
-                value={newTicket}
-                onChange={(e) => setNewTicket(e.target.value)}
+                value={newTickets[columnId]}
+                onChange={(e) => handleInputChange(e, columnId)}
                 mt={4}
               />
               <Button onClick={() => addTicket(columnId)} mt={2} colorScheme="blue">
