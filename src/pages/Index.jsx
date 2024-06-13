@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Box, VStack, Text, Input, Button, Heading } from "@chakra-ui/react";
+import { Container, Box, VStack, Text, Input, Button, Heading, HStack } from "@chakra-ui/react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const initialColumns = {
@@ -41,6 +41,8 @@ const Index = () => {
     devSprint: "",
     accepted: "",
   });
+  const [editingTicket, setEditingTicket] = useState(null);
+  const [editingContent, setEditingContent] = useState("");
 
   const onDragEnd = (result, columns, setColumns) => {
     if (!result.destination) return;
@@ -104,6 +106,30 @@ const Index = () => {
     });
   };
 
+  const handleTicketClick = (ticket) => {
+    setEditingTicket(ticket);
+    setEditingContent(ticket.content);
+  };
+
+  const handleSaveClick = () => {
+    const updatedColumns = { ...columns };
+    Object.keys(updatedColumns).forEach((columnId) => {
+      const column = updatedColumns[columnId];
+      const ticketIndex = column.items.findIndex((item) => item.id === editingTicket.id);
+      if (ticketIndex !== -1) {
+        column.items[ticketIndex].content = editingContent;
+      }
+    });
+    setColumns(updatedColumns);
+    setEditingTicket(null);
+    setEditingContent("");
+  };
+
+  const handleCancelClick = () => {
+    setEditingTicket(null);
+    setEditingContent("");
+  };
+
   return (
     <Container maxW="container.xl" p={4}>
       <Heading mb={4}>Trello Clone</Heading>
@@ -135,8 +161,23 @@ const Index = () => {
                             borderRadius="md"
                             boxShadow="md"
                             border={snapshot.isDragging ? "2px solid blue" : "none"}
+                            onClick={() => handleTicketClick(item)}
                           >
-                            <Text>{item.content}</Text>
+                            {editingTicket && editingTicket.id === item.id ? (
+                              <Box>
+                                <Input
+                                  value={editingContent}
+                                  onChange={(e) => setEditingContent(e.target.value)}
+                                  mb={2}
+                                />
+                                <HStack>
+                                  <Button colorScheme="blue" onClick={handleSaveClick}>Save</Button>
+                                  <Button onClick={handleCancelClick}>Cancel</Button>
+                                </HStack>
+                              </Box>
+                            ) : (
+                              <Text>{item.content}</Text>
+                            )}
                           </Box>
                         )}
                       </Draggable>
