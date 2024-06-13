@@ -124,16 +124,16 @@ const Index = () => {
         }
       });
       setColumns(updatedColumns);
-      setEditingTicket(null);  // Ensure card is non-editable after saving
-      setEditingContent("");   // Clear editing content after saving
+      setEditingTicket(null); // Set to null to make the card non-editable
+      setEditingContent(""); // Clear the editing content
       console.log("Ticket saved:", updatedColumns);
     }
   };
 
   const handleCancelClick = () => {
     console.log("Cancel button clicked");
-    setEditingTicket(null);  // Ensure card is non-editable after canceling
-    setEditingContent("");   // Clear editing content after canceling
+    setEditingTicket(null); // Set to null to make the card non-editable
+    setEditingContent(""); // Clear the editing content
     console.log("Edit canceled");
   };
 
