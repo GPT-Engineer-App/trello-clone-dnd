@@ -38,6 +38,11 @@ const initialColumns = {
   },
 };
 
+const Q9 = () => {
+  // Define the functionality of Q9 here
+  console.log("Q9 function is called");
+};
+
 const Index = () => {
   const [columns, setColumns] = useState(initialColumns);
   const [newTickets, setNewTickets] = useState({
