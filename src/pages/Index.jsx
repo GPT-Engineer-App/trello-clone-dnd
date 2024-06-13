@@ -109,25 +109,30 @@ const Index = () => {
   const handleTicketClick = (ticket) => {
     setEditingTicket(ticket);
     setEditingContent(ticket.content);
+    console.log("Editing ticket:", ticket);
   };
 
   const handleSaveClick = () => {
-    const updatedColumns = { ...columns };
-    Object.keys(updatedColumns).forEach((columnId) => {
-      const column = updatedColumns[columnId];
-      const ticketIndex = column.items.findIndex((item) => item.id === editingTicket.id);
-      if (ticketIndex !== -1) {
-        column.items[ticketIndex].content = editingContent;
-      }
-    });
-    setColumns(updatedColumns);
-    setEditingTicket(null);
-    setEditingContent("");
+    if (editingTicket) {
+      const updatedColumns = { ...columns };
+      Object.keys(updatedColumns).forEach((columnId) => {
+        const column = updatedColumns[columnId];
+        const ticketIndex = column.items.findIndex((item) => item.id === editingTicket.id);
+        if (ticketIndex !== -1) {
+          column.items[ticketIndex].content = editingContent;
+        }
+      });
+      setColumns(updatedColumns);
+      setEditingTicket(null);
+      setEditingContent("");
+      console.log("Ticket saved:", updatedColumns);
+    }
   };
 
   const handleCancelClick = () => {
     setEditingTicket(null);
     setEditingContent("");
+    console.log("Edit canceled");
   };
 
   return (
