@@ -113,6 +113,7 @@ const Index = () => {
   };
 
   const handleSaveClick = () => {
+    console.log("Save button clicked");
     if (editingTicket) {
       const updatedColumns = { ...columns };
       Object.keys(updatedColumns).forEach((columnId) => {
@@ -130,6 +131,7 @@ const Index = () => {
   };
 
   const handleCancelClick = () => {
+    console.log("Cancel button clicked");
     setEditingTicket(null);
     setEditingContent("");
     console.log("Edit canceled");
