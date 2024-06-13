@@ -1,3 +1,8 @@
+window.onerror = function (message, source, lineno, colno, error) {
+  console.error("Error occurred: ", message, " at ", source, ":", lineno, ":", colno);
+  console.error("Stack trace: ", error.stack);
+};
+
 import React, { useState } from "react";
 import { Container, Box, VStack, Text, Input, Button, Heading, HStack } from "@chakra-ui/react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
